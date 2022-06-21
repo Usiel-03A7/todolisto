@@ -1,6 +1,7 @@
 const boton = document.querySelector('.boton');
 const entradaTex = document.querySelector('.entradaTex');
 const contenedor_input = document.querySelector('#contenedor_input');
+const guardar = document.querySelector('.guardar');
 function delete_row(e) {
     e.parentNode.parentNode.removeChild(e.parentNode);
 }
@@ -28,16 +29,19 @@ boton.addEventListener("click", (e) => {
     edit.type = 'submit'
     edit.classList.add('edit')
     edit.innerHTML = 'Editar'
-
-    edit.addEventListener('click', (e) => {
-        tImputEl.removeAttribute('readonly');
-    })
-    tImputEl.setAttribute('readonly', 'readonly')
-
     const done = document.createElement('button')
     done.classList.add('done')
     done.type = 'submit'
     done.innerHTML = 'Done'
+    
+    accion.appendChild(edit);
+    edit.addEventListener('click', (e) => {
+        tImputEl.removeAttribute('readonly');
+        accion.appendChild(done);
+        
+    })
+    tImputEl.setAttribute('readonly', 'readonly')
+
 
     done.addEventListener('click', (e) => {
         tImputEl.setAttribute('readonly', 'readonly')
@@ -47,8 +51,7 @@ boton.addEventListener("click", (e) => {
     delet.innerHTML = 'Eliminar';
 
     contenedor_input.appendChild(tImputEl);
-    accion.appendChild(edit);
-    accion.appendChild(done);
+    
     accion.appendChild(delet);
     contenedor_input.appendChild(accion);
 
@@ -60,6 +63,9 @@ boton.addEventListener("click", (e) => {
     })
 
     entradaTex.value = '';
+    guardar.addEventListener('click',()=>{
+        localStorage.setItem(tImputEl)
+    })
 })
 
 
