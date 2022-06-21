@@ -1,7 +1,7 @@
 const boton = document.querySelector('.boton');
 const entradaTex = document.querySelector('.entradaTex');
 const contenedor_input = document.querySelector('#contenedor_input');
-var arre  =[10];
+var array= new Array();
 function delete_row(e) {
     e.parentNode.parentNode.removeChild(e.parentNode);
 }
@@ -18,7 +18,7 @@ boton.addEventListener("click", (e) => {
     tImputEl.classList.add('text')
     tImputEl.type = 'text';
     tImputEl.value = taskk;
-    save__local(tImputEl);
+    save__local();
     tImputEl.setAttribute('readonly', 'readonly')
 
 
@@ -67,18 +67,19 @@ boton.addEventListener("click", (e) => {
         done.remove();
     })
 
-    entradaTex.value = '';
-    function save__local(tImputEl) {
-        var arre =[10];
-        arre.push(tImputEl);
-      const save = localStorage.setItem('archivo',JSON.parse( JSON.stringify(tImputEl.value)));
-      
+    function save__local() {
+        
+        const save = localStorage.setItem('archivo',JSON.parse( JSON.stringify(tImputEl.value)));
+        array.push(save); 
+        console.log(array);
+        return array;  
     }
     function export__local() {
         const exportar = localStorage.getItem('archivo');
-        
+        return exportar;
     }
-
+    let jornada = save__local
+    entradaTex.value = '';
 })
 
 
