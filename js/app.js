@@ -45,6 +45,7 @@ boton.addEventListener("click", (e) => {
 
     done.addEventListener('click', (e) => {
         tImputEl.setAttribute('readonly', 'readonly')
+        done.remove();
     })
     const delet = document.createElement('button')
     delet.classList.add('delete');
