@@ -1,8 +1,7 @@
 const boton = document.querySelector('.boton');
 const entradaTex = document.querySelector('.entradaTex');
 const contenedor_input = document.querySelector('#contenedor_input');
-const guardar = document.querySelector('.guardar');
-const extraer = document.querySelector('.extraer');
+var arre  =[10];
 function delete_row(e) {
     e.parentNode.parentNode.removeChild(e.parentNode);
 }
@@ -19,6 +18,7 @@ boton.addEventListener("click", (e) => {
     tImputEl.classList.add('text')
     tImputEl.type = 'text';
     tImputEl.value = taskk;
+    save__local(tImputEl);
     tImputEl.setAttribute('readonly', 'readonly')
 
 
@@ -40,12 +40,15 @@ boton.addEventListener("click", (e) => {
         tImputEl.removeAttribute('readonly');
         accion.appendChild(done);
         
+        
     })
+    
     tImputEl.setAttribute('readonly', 'readonly')
-
-
+    
+    
     done.addEventListener('click', (e) => {
         tImputEl.setAttribute('readonly', 'readonly')
+        save__local(tImputEl)
         done.remove();
     })
     const delet = document.createElement('button')
@@ -65,12 +68,17 @@ boton.addEventListener("click", (e) => {
     })
 
     entradaTex.value = '';
-    guardar.addEventListener('click',()=>{
-        localStorage.setItem("imput",tImputEl)
-    })
-    extraer.addEventListener('click',()=>{
-        localStorage.getItem("imput")
-    })
+    function save__local(tImputEl) {
+        var arre =[10];
+        arre.push(tImputEl);
+      const save = localStorage.setItem('archivo',JSON.parse( JSON.stringify(tImputEl.value)));
+      
+    }
+    function export__local() {
+        const exportar = localStorage.getItem('archivo');
+        
+    }
+
 })
 
 
