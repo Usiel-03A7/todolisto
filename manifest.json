@@ -1,7 +1,7 @@
 {
-  "name": "My first PWA",
+  "name": "Crud Todo List PWA",
   "short_name": "Web Developer",
-  "description": "The is myfirst pwa",
+  "description": "This is the beta version to apply the crud hot chill an peper",
   "theme_color": "#abd1f2",
   "background_color": "#2196f3",
   "display": "standalone",

@@ -32,6 +32,7 @@ boton.addEventListener("click", (e) => {
     edit.addEventListener('click', (e) => {
         tImputEl.removeAttribute('readonly');
     })
+    tImputEl.setAttribute('readonly', 'readonly')
 
     const done = document.createElement('button')
     done.classList.add('done')
