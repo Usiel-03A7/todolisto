@@ -5,14 +5,20 @@ const CACHE_NAME = 'WebDeveloper',
     './',
     './index.html',
     './css/bootstrap.min.css',
-    './css/style.css',
-    './js/app.js',
-
+    './css/home.css',
+    
     './js/bootstrap.bundle.min.js',
     './js/jquery-3.6.0.js',
 
     './regist_serviceWorker.js',
-  
+    './images/img1.jpg',
+    './images/img2.jpg',
+    './images/img3.jpg',
+    './images/img4.jpg',
+    './images/img5.webp',
+    './images/img6.jpg',
+    './images/img7.jpg'
+    
   ]
 
 //durante la fase de instalación, generalmente se almacena en caché los activos estáticos

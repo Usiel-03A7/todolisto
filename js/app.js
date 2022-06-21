@@ -2,6 +2,7 @@ const boton = document.querySelector('.boton');
 const entradaTex = document.querySelector('.entradaTex');
 const contenedor_input = document.querySelector('#contenedor_input');
 const guardar = document.querySelector('.guardar');
+const extraer = document.querySelector('.extraer');
 function delete_row(e) {
     e.parentNode.parentNode.removeChild(e.parentNode);
 }
@@ -65,7 +66,10 @@ boton.addEventListener("click", (e) => {
 
     entradaTex.value = '';
     guardar.addEventListener('click',()=>{
-        localStorage.setItem(tImputEl)
+        localStorage.setItem("imput",tImputEl)
+    })
+    extraer.addEventListener('click',()=>{
+        localStorage.getItem("imput")
     })
 })
 
