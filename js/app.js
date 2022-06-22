@@ -1,7 +1,7 @@
 const boton = document.querySelector('.boton');
 const entradaTex = document.querySelector('.entradaTex');
 const contenedor_input = document.querySelector('#contenedor_input');
-var array= new Array();
+var nombreList = [];
 function delete_row(e) {
     e.parentNode.parentNode.removeChild(e.parentNode);
 }
@@ -18,7 +18,7 @@ boton.addEventListener("click", (e) => {
     tImputEl.classList.add('text')
     tImputEl.type = 'text';
     tImputEl.value = taskk;
-    save__local();
+    guardarLocalStorage(tImputEl.value);
     tImputEl.setAttribute('readonly', 'readonly')
 
 
@@ -27,28 +27,29 @@ boton.addEventListener("click", (e) => {
     accion.classList.add('actions')
 
     const edit = document.createElement('button')
-    edit.type = 'submit'
-    edit.classList.add('edit')
-    edit.innerHTML = 'Editar'
+    edit.type = 'submit';
+    edit.classList.add('edit');
+    edit.innerHTML = 'Editar';
     const done = document.createElement('button')
     done.classList.add('done')
-    done.type = 'submit'
-    done.innerHTML = 'Done'
-    
+    done.type = 'submit';
+    done.innerHTML = 'Done';
+
     accion.appendChild(edit);
     edit.addEventListener('click', (e) => {
         tImputEl.removeAttribute('readonly');
         accion.appendChild(done);
-        
-        
+
+
     })
-    
-    tImputEl.setAttribute('readonly', 'readonly')
-    
-    
+
+    tImputEl.setAttribute('readonly', 'readonly');
+
+
     done.addEventListener('click', (e) => {
-        tImputEl.setAttribute('readonly', 'readonly')
-        save__local(tImputEl)
+
+        tImputEl.setAttribute('readonly', 'readonly');
+        guardarLocalStorage(tImputEl.value);
         done.remove();
     })
     const delet = document.createElement('button')
@@ -56,7 +57,7 @@ boton.addEventListener("click", (e) => {
     delet.innerHTML = 'Eliminar';
 
     contenedor_input.appendChild(tImputEl);
-    
+
     accion.appendChild(delet);
     contenedor_input.appendChild(accion);
 
@@ -66,21 +67,102 @@ boton.addEventListener("click", (e) => {
         delet.remove();
         done.remove();
     })
-
-    function save__local() {
-        
-        const save = localStorage.setItem('archivo',JSON.parse( JSON.stringify(tImputEl.value)));
-        array.push(save); 
-        console.log(array);
-        return array;  
-    }
-    function export__local() {
-        const exportar = localStorage.getItem('archivo');
-        return exportar;
-    }
-    let jornada = save__local
     entradaTex.value = '';
+
+
+    // function save__local() {
+
+    //     const save = localStorage.setItem('archivo',JSON.parse( JSON.stringify(tImputEl.value)));
+    //     array.push(save); 
+    //     console.log(array);
+    //     return array;  
+    // }
+    // function export__local() {
+    //     const exportar = localStorage.getItem('archivo');
+    //     return exportar;
+    // }
+    // let jornada = save__local
+
 })
+const extraer = document.querySelector('.extraer')
+extraer.addEventListener('click', () => {
+   
+    console.log('simon si entró');
+    extraeLocalStrona();
+    console.log('aquí arribita tiene que estar el arreglo');
 
 
+})
+function guardarLocalStorage(no) {
+    nombreList.push(no);
+    localStorage.setItem("nombre", JSON.stringify(nombreList));
+
+}
+function extraeLocalStrona() {
+
+    var newData = localStorage.getItem("nombre");
+    reconstruir(newData);
+}
+
+function reconstruir(varAre) {
+    var lo = JSON.parse(varAre);
+
+    for (let i = 0; i < lo.length; i++) {
+
+        const newImp = document.createElement('input');
+        newImp.classList.add('text')
+        newImp.type = 'text';
+        newImp.value = lo[i];
+
+        newImp.setAttribute('readonly', 'readonly')
+
+
+
+        const newaccion = document.createElement('div')
+        newaccion.classList.add('actions')
+
+        const edit = document.createElement('button')
+        edit.type = 'submit';
+        edit.classList.add('edit');
+        edit.innerHTML = 'Editar';
+        const done = document.createElement('button')
+        done.classList.add('done')
+        done.type = 'submit';
+        done.innerHTML = 'Done';
+
+        newaccion.appendChild(edit);
+        edit.addEventListener('click', (e) => {
+            newImp.removeAttribute('readonly');
+            newaccion.appendChild(done);
+
+
+
+        })
+
+        newImp.setAttribute('readonly', 'readonly');
+
+
+        done.addEventListener('click', (e) => {
+
+            newImp.setAttribute('readonly', 'readonly');
+            guardarLocalStorage(newImp.value);
+            done.remove();
+        })
+        const delet = document.createElement('button')
+        delet.classList.add('delete');
+        delet.innerHTML = 'Eliminar';
+
+        contenedor_input.appendChild(newImp);
+
+        newaccion.appendChild(delet);
+        contenedor_input.appendChild(newaccion);
+
+        delet.addEventListener('click', () => {
+            newImp.remove();
+            edit.remove();
+            delet.remove();
+            done.remove();
+        })
+    }
+}
 
