@@ -166,3 +166,8 @@ function reconstruir(varAre) {
     }
 }
 
+// recives datos,
+// verificas datop
+// guardas dato
+// verificas dato
+// envias que fue correcto el dato 
