@@ -19,6 +19,8 @@ boton.addEventListener("click", (e) => {
     tImputEl.type = 'text';
     tImputEl.value = taskk;
     guardarLocalStorage(tImputEl.value);
+    postArchivo(tImputEl.value);
+    saveDynamicDataToFile(tImputEl.value);
     tImputEl.setAttribute('readonly', 'readonly')
 
 
@@ -86,10 +88,10 @@ boton.addEventListener("click", (e) => {
 })
 const extraer = document.querySelector('.extraer')
 extraer.addEventListener('click', () => {
-   
-    console.log('simon si entró');
+
+    console.log('simon si entrÃ³');
     extraeLocalStrona();
-    console.log('aquí arribita tiene que estar el arreglo');
+    console.log('aquÃ­ arribita tiene que estar el arreglo');
 
 
 })
@@ -165,6 +167,30 @@ function reconstruir(varAre) {
         })
     }
 }
+
+function postArchivo(archi) {
+    fetch('https://sistemas.cruzperez.com/usiel/',
+        {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: "POST",
+            body: archi
+        })
+        .then(function (res) { console.log(res) })
+        .catch(function (res) { console.log(res) })
+}
+
+// function getArchivo() {
+//     fetch('https://sistemas.cruzperez.com/usiel/', {
+//         method: 'GET',
+//         body: archi
+//      })
+// }
+
+// getArchivo();
+
 
 // recives datos,
 // verificas datop
