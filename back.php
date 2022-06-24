@@ -1,1 +1,3 @@
-<?php $datos = $_POST['data2']; ?>
+<?php
+$archi = $_POST['archi']; 
+?>

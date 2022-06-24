@@ -169,7 +169,7 @@ function reconstruir(varAre) {
 }
 
 function postArchivo(archi) {
-    fetch('https://sistemas.cruzperez.com/usiel/',
+    fetch('https://sistemas.cruzperez.com/usiel/back.php',
         {
             headers: {
                 'Accept': 'application/json',
