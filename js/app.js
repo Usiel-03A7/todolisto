@@ -85,15 +85,20 @@ boton.addEventListener("click", (e) => {
 })
 const extraer = document.querySelector('.extraer')
 extraer.addEventListener('click', () => {
-    var json = $.getJSON("test.json");
-    var data = eval("(" + json.responseText + ")");
-    document.write(data["a"]);
-    console.log('simon si entr0');
+    //  alert('si esta entrando');
+    //console.log('simon si entr0');
+    //  console.log('aqu1 arribita tiene que estar el arreglo');
+    alert('Holi');
+
+   
     extraeLocalStrona();
-    console.log('aqu7 arribita tiene que estar el arreglo');
+   // extraeServerData();
 
 
-})
+});
+function extraeServerData() {
+   
+}
 function guardarLocalStorage(no) {
     nombreList.push(no);
     localStorage.setItem("nombre", JSON.stringify(nombreList));
