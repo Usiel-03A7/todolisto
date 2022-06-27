@@ -19,7 +19,7 @@ boton.addEventListener("click", (e) => {
     tImputEl.type = 'text';
     tImputEl.value = taskk;
     guardarLocalStorage(tImputEl.value);
-
+    
     tImputEl.setAttribute('readonly', 'readonly')
 
 
@@ -88,38 +88,38 @@ boton.addEventListener("click", (e) => {
 //const extraer = document.querySelector('.extraer')
 //extraer.addEventListener('click', () => {
 
-//  console.log('simon si entra³');
-//extraeLocalStrona();
-//console.log('aquÃ­ arribita tiene que estar el arreglo');
+  //  console.log('simon si entra³');
+    //extraeLocalStrona();
+    //console.log('aquÃ­ arribita tiene que estar el arreglo');
 
 
 //})
 const extraer = document.querySelector('.extraer')
 extraer.addEventListener('click', () => {
 
-    //extraeLocalStrona();
+  // extraeLocalStrona();
     extraerDataSave();
-
+	
 
 })
 function guardarLocalStorage(no) {
     nombreList.push(no);
-    localStorage.setItem("nombre", JSON.stringify(nombreList));
-    postArchivo(nombreList);
+  localStorage.setItem("nombre", JSON.stringify(nombreList));    
+  postArchivo(JSON.stringify(nombreList));
 }
 
 function extraerDataSave() {
+  var listBack= [];
+  fetch('./datos/prueba.txt') //Consultar datos
+  .then(response => response.text()) //Si se obtuvieron, 
+  .then(data => {
+  	// Do something with your data
+  	console.log(data);		
+	  localStorage.setItem("nombre", data);     //setear el localstorage
+  });					//TODO:si no
 
-    var dataa = fetch('./datos/prueba.txt')
-        .then(response => response.text())
-        .then(data => {
-            // Do something with your data
-            console.log(data);
-            reconstruir(data);
-        });
+extraeLocalStrona();
     
-
-
 }
 
 function extraeLocalStrona() {
@@ -190,7 +190,7 @@ function reconstruir(varAre) {
     }
 }
 
-function postArchivo(archi) {
+function  postArchivo(archi){
     fetch('https://sistemas.cruzperez.com/usiel/back.php',
         {
             headers: {
