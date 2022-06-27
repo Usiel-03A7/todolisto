@@ -2,7 +2,9 @@ const boton = document.querySelector('.boton');
 const entradaTex = document.querySelector('.entradaTex');
 const contenedor_input = document.querySelector('#contenedor_input');
 var nombreList = [];
-
+function delete_row(e) {
+    e.parentNode.parentNode.removeChild(e.parentNode);
+}
 boton.addEventListener("click", (e) => {
     e.preventDefault();
     const taskk = entradaTex.value;
@@ -17,7 +19,7 @@ boton.addEventListener("click", (e) => {
     tImputEl.type = 'text';
     tImputEl.value = taskk;
     guardarLocalStorage(tImputEl.value);
-
+    
     tImputEl.setAttribute('readonly', 'readonly')
 
 
@@ -83,27 +85,33 @@ boton.addEventListener("click", (e) => {
     // let jornada = save__local
 
 })
+//const extraer = document.querySelector('.extraer')
+//extraer.addEventListener('click', () => {
+
+  //  console.log('simon si entra³');
+    //extraeLocalStrona();
+    //console.log('aquÃ­ arribita tiene que estar el arreglo');
+
+
+//})
 const extraer = document.querySelector('.extraer')
 extraer.addEventListener('click', () => {
-    //  alert('si esta entrando');
-    //console.log('simon si entr0');
-    //  console.log('aqu1 arribita tiene que estar el arreglo');
-    alert('Holi');
 
-   
     extraeLocalStrona();
-   // extraeServerData();
 
 
-});
-function extraeServerData() {
-   
-}
+})
 function guardarLocalStorage(no) {
     nombreList.push(no);
-    localStorage.setItem("nombre", JSON.stringify(nombreList));
-    postArchivo(nombreList);
+  localStorage.setItem("nombre", JSON.stringify(nombreList));    
+  postArchivo(nombreList);
 }
+function extraerServerData() {
+
+    var newData = localStorage.getItem("nombre");
+    reconstruir(newData);
+}
+
 function extraeLocalStrona() {
 
     var newData = localStorage.getItem("nombre");
@@ -172,7 +180,7 @@ function reconstruir(varAre) {
     }
 }
 
-function postArchivo(archi) {
+function  postArchivo(archi){
     fetch('https://sistemas.cruzperez.com/usiel/back.php',
         {
             headers: {
