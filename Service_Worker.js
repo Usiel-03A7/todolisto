@@ -6,18 +6,10 @@ const CACHE_NAME = 'WebDeveloper',
     './index.html',
     './css/bootstrap.min.css',
     './css/home.css',
-    
+
     './js/bootstrap.bundle.min.js',
     './js/jquery-3.6.0.js',
-
-    './regist_serviceWorker.js',
-    './images/img1.jpg',
-    './images/img2.jpg',
-    './images/img3.jpg',
-    './images/img4.jpg',
-    './images/img5.webp',
-    './images/img6.jpg',
-    './images/img7.jpg'
+    './regist_serviceWorker.js'
     
   ]
 
@@ -55,17 +47,17 @@ self.addEventListener('activate', e => {
 })
 
 //cuando el navegador recupera una url
- self.addEventListener('fetch', e => {
-   //Responder ya sea con el objeto en caché o continuar y buscar la url real
-   e.respondWith(
-     caches.match(e.request)
-       .then(res => {
-         if (res) {
-           //recuperar del cache
-           return res
-         }
-         //recuperar de la petición a la url
-         return fetch(e.request)
-       })
-   )
- })
+self.addEventListener('fetch', e => {
+  //Responder ya sea con el objeto en caché o continuar y buscar la url real
+  e.respondWith(
+    caches.match(e.request)
+      .then(res => {
+        if (res) {
+          //recuperar del cache
+          return res
+        }
+        //recuperar de la petición a la url
+        return fetch(e.request)
+      })
+  )
+})
