@@ -1,3 +1,13 @@
+<?php 
+    $saml_lib_path = '/simplesamlphp/lib/_autoload.php';  
+    require_once($saml_lib_path);
+    // Fuente de autenticacion definida en el authsources del SP ej, default-sp
+	$SP_ORIGEN= 'desarrollo4sistemas';   
+    // Se crea la instancia del saml, pasando como parametro la fuente de autenticacion.
+	$saml = new SimpleSAML_Auth_Simple($SP_ORIGEN);   
+	$saml ->requireAuth();
+
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -40,7 +50,8 @@
 </head>
 
 <body>
-    <!-- ésta es la parte que no jala-->
+
+    <!-- Ã©sta es la parte que no jala-->
     <div class="contenedor">
         <input type="text" class="entradaTex">
         <input type="submit" class="boton">
@@ -52,7 +63,7 @@
        <input  style="display: flex; margin-top: 2rem; margin-left: 3rem;" type="submit" class="extraer" value="Extraer">
     
    </div>
-    <!-- ésta es la parte que jala pero debo pasarla a lo anterior-->
+    <!-- Ã©sta es la parte que jala pero debo pasarla a lo anterior-->
   
     
         
