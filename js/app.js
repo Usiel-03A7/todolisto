@@ -1,10 +1,7 @@
 const boton = document.querySelector('.boton');
 const entradaTex = document.querySelector('.entradaTex');
-const contenedor_input = document.querySelector('#contenedor_input');
+const contenedor_input = document.getElementById('contenedor_input');
 var nombreList = [];
-function delete_row(e) {
-    e.parentNode.parentNode.removeChild(e.parentNode);
-}
 boton.addEventListener("click", (e) => {
     e.preventDefault();
     const taskk = entradaTex.value;
@@ -71,29 +68,7 @@ boton.addEventListener("click", (e) => {
     entradaTex.value = '';
 
 
-    // function save__local() {
-
-    //     const save = localStorage.setItem('archivo',JSON.parse( JSON.stringify(tImputEl.value)));
-    //     array.push(save); 
-    //     console.log(array);
-    //     return array;  
-    // }
-    // function export__local() {
-    //     const exportar = localStorage.getItem('archivo');
-    //     return exportar;
-    // }
-    // let jornada = save__local
-
 })
-//const extraer = document.querySelector('.extraer')
-//extraer.addEventListener('click', () => {
-
-//  console.log('simon si entra³');
-//extraeLocalStrona();
-//console.log('aquÃ­ arribita tiene que estar el arreglo');
-
-
-//})
 const extraer = document.querySelector('.extraer')
 extraer.addEventListener('click', () => {
 
@@ -129,7 +104,12 @@ function extraeLocalStrona() {
 }
 
 function reconstruir(varAre) {
+    let cont = 0;
+	
+
     var lo = JSON.parse(varAre);
+
+
 
     for (let i = 0; i < lo.length; i++) {
 
@@ -191,6 +171,13 @@ function reconstruir(varAre) {
 }
 
 function postArchivo(archi) {
+ var correo = document.getElementById("uCorreo").value;
+	var usuario = {
+	correo: correo,
+	archi: archi
+	};
+	var obj = JSON.stringify(usuario);
+
     fetch('https://sistemas.cruzperez.com/usiel/back.php',
         {
             headers: {
@@ -198,23 +185,8 @@ function postArchivo(archi) {
                 'Content-Type': 'application/json'
             },
             method: "POST",
-            body: archi
+            body: obj 
         })
         .then(function (res) { console.log(res) })
         .catch(function (res) { console.log(res) })
 }
-// function getArchivo() {
-//     fetch('https://sistemas.cruzperez.com/usiel/', {
-//         method: 'GET',
-//         body: archi
-//      })
-// }
-
-// getArchivo();
-
-
-// recives datos,
-// verificas datop
-// guardas dato
-// verificas dato
-// envias que fue correcto el dato 

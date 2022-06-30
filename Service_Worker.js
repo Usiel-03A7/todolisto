@@ -1,19 +1,16 @@
 
-//asignar un nombre y versiÃ³n al cache
+//asignar un nombre y versión al cache
 const CACHE_NAME = 'WebDeveloper',
   urlsToCache = [
     './',
     './index.html',
     './css/bootstrap.min.css',
     './css/home.css',
-
-    './js/bootstrap.bundle.min.js',
-    './js/jquery-3.6.0.js',
     './regist_serviceWorker.js'
-    
-  ]
+  
+  ];
 
-//durante la fase de instalaciÃ³n, generalmente se almacena en cachÃ© los activos estÃ¡ticos
+//durante la fase de instalación, generalmente se almacena en caché los activos estáticos
 self.addEventListener('install', e => {
   e.waitUntil(
     caches.open(CACHE_NAME)
@@ -21,11 +18,11 @@ self.addEventListener('install', e => {
         return cache.addAll(urlsToCache)
           .then(() => self.skipWaiting())
       })
-      .catch(err => console.log('FallÃ³ registro de cache', err))
+      .catch(err => console.log('Falló registro de cache', err))
   )
 })
 
-//una vez que se instala el SW, se activa y busca los recursos para hacer que funcione sin conexiÃ³n
+//una vez que se instala el SW, se activa y busca los recursos para hacer que funcione sin conexión
 self.addEventListener('activate', e => {
   const cacheWhitelist = [CACHE_NAME]
 
@@ -47,17 +44,21 @@ self.addEventListener('activate', e => {
 })
 
 //cuando el navegador recupera una url
-self.addEventListener('fetch', e => {
-  //Responder ya sea con el objeto en cachÃ© o continuar y buscar la url real
-  e.respondWith(
-    caches.match(e.request)
-      .then(res => {
-        if (res) {
-          //recuperar del cache
-          return res
-        }
-        //recuperar de la peticiÃ³n a la url
-        return fetch(e.request)
-      })
-  )
-})
+ self.addEventListener('fetch', e => {
+   //Responder ya sea con el objeto en caché o continuar y buscar la url real
+   e.respondWith(
+     caches.match(e.request)
+       .then(res => {
+         if (res) {
+           //recuperar del cache
+           return res
+         }
+         //recuperar de la petición a la url
+         return fetch(e.request)
+       })
+   )
+ })
+      return fetch(e.request)
+       })
+   )
+ })
