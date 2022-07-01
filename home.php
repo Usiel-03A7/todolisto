@@ -54,10 +54,10 @@
 </head>
 
 <body>
-    <!-- ésta es la parte que no jala-->
+    <!-- Ã©sta es la parte que no jala-->
 
-	 <input id="uCorreo" type="mail" class="entradaTex" value= "<?php echo $_SESSION["uCorreo"];?>" readonly >
-
+	 
+    <p id="uCorreo"> <?php echo $_SESSION["uCorreo"];?>  </p>
 
     <div class="contenedor">
         <input type="text" class="entradaTex">
@@ -70,9 +70,10 @@
        <input  style="display: flex; margin-top: 2rem; margin-left: 3rem;" type="submit" class="extraer" value="Extraer">
     
    </div>
-    <!-- ésta es la parte que jala pero debo pasarla a lo anterior-->
+    <!-- Ã©sta es la parte que jala pero debo pasarla a lo anterior-->
   
-    
+
+
         	
     <script src="./js/app.js"></script>
 

@@ -171,12 +171,14 @@ function reconstruir(varAre) {
 }
 
 function postArchivo(archi) {
- var correo = document.getElementById("uCorreo").value;
+ var correo = document.getElementById("uCorreo").innerText;
 	var usuario = {
-	correo: correo,
-	archi: archi
+	archi: archi,
+	correo: correo
+
 	};
-	var obj = JSON.stringify(usuario);
+	var cadena = JSON.stringify(usuario);
+	console.log(cadena);
 
     fetch('https://sistemas.cruzperez.com/usiel/back.php',
         {
@@ -185,7 +187,7 @@ function postArchivo(archi) {
                 'Content-Type': 'application/json'
             },
             method: "POST",
-            body: obj 
+            body: cadena 
         })
         .then(function (res) { console.log(res) })
         .catch(function (res) { console.log(res) })

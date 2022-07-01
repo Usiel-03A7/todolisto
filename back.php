@@ -1,8 +1,9 @@
 <?php
 
 $entityBody = file_get_contents('php://input');
-echo file_put_contents('./datos/prueba.txt', $entityBody);
-
-echo $entityBody;
-
+$datos=json_decode($entityBody,true); 
+var_dump($datos);
+$ruta="./datos/".$datos["correo"];
+echo $ruta;
+echo file_put_contents($ruta, $datos["archi"]);
 ?>
