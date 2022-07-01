@@ -2,6 +2,7 @@ const boton = document.querySelector('.boton');
 const entradaTex = document.querySelector('.entradaTex');
 const contenedor_input = document.getElementById('contenedor_input');
 var nombreList = [];
+extraeLocalStrona() ;
 boton.addEventListener("click", (e) => {
     e.preventDefault();
     const taskk = entradaTex.value;
@@ -12,24 +13,24 @@ boton.addEventListener("click", (e) => {
     }
 
     const tImputEl = document.createElement('input');
-    tImputEl.classList.add('text')
+    tImputEl.classList.add('text');
     tImputEl.type = 'text';
     tImputEl.value = taskk;
     guardarLocalStorage(tImputEl.value);
 
-    tImputEl.setAttribute('readonly', 'readonly')
+    tImputEl.setAttribute('readonly', 'readonly');
 
 
 
     const accion = document.createElement('div')
-    accion.classList.add('actions')
+    accion.classList.add('actions');
 
     const edit = document.createElement('button')
     edit.type = 'submit';
     edit.classList.add('edit');
     edit.innerHTML = 'Editar';
     const done = document.createElement('button')
-    done.classList.add('done')
+    done.classList.add('done');
     done.type = 'submit';
     done.innerHTML = 'Done';
 
@@ -50,7 +51,7 @@ boton.addEventListener("click", (e) => {
         guardarLocalStorage(tImputEl.value);
         done.remove();
     })
-    const delet = document.createElement('button')
+    const delet = document.createElement('button');
     delet.classList.add('delete');
     delet.innerHTML = 'Eliminar';
 

@@ -12,3 +12,4 @@
 	$_SESSION["uCorreo"]=$atributos["uCorreo"][0];
 	echo $_SESSION["uCorreo"];
 	var_dump($_SESSION);
+	>
