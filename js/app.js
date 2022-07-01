@@ -84,8 +84,8 @@ function guardarLocalStorage(no) {
 }
 
 function extraerDataSave() {
-    
-    fetch('./datos/prueba.txt') //Consultar datos
+     var correo = document.getElementById("uCorreo").innerText;
+    fetch('./datos/'+correo) //Consultar datos
         .then(response => response.text()) //Si se obtuvieron, 
         .then(data => {
             // Do something with your data
