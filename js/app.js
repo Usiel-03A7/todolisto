@@ -2,7 +2,7 @@ const boton = document.querySelector('.boton');
 const entradaTex = document.querySelector('.entradaTex');
 const contenedor_input = document.getElementById('contenedor_input');
 var nombreList = [];
-extraeLocalStrona() ;
+
 boton.addEventListener("click", (e) => {
     e.preventDefault();
     const taskk = entradaTex.value;
@@ -70,6 +70,10 @@ boton.addEventListener("click", (e) => {
 
 
 })
+var EDS =[];
+
+EDS = extraerDataSave();
+
 const extraer = document.querySelector('.extraer')
 extraer.addEventListener('click', () => {
 
@@ -101,14 +105,15 @@ function extraerDataSave() {
 function extraeLocalStrona() {
 
     var newData = localStorage.getItem("nombre");
-    reconstruir(newData);
+    nombreList = JSON.parse(newData);
+    reconstruir(nombreList);
 }
 
 function reconstruir(varAre) {
     let cont = 0;
 	
 
-    var lo = JSON.parse(varAre);
+    var lo = varAre;
 
 
 
@@ -168,7 +173,11 @@ function reconstruir(varAre) {
             delet.remove();
             done.remove();
         })
+
     }
+}
+function eliminarar(){
+
 }
 
 function postArchivo(archi) {
