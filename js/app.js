@@ -89,13 +89,16 @@ function guardarLocalStorage(no) {
 }
 
 function extraerDataSave() {
+	var  x;
      var correo = document.getElementById("uCorreo").innerText;
-    fetch('./datos/'+correo) //Consultar datos
+    fetch('./datos/'+correo + "?"+Math.random()) //Consultar datos
         .then(response => response.text()) //Si se obtuvieron, 
         .then(data => {
             // Do something with your data
             console.log(data);
-            localStorage.setItem("nombre", data);     //setear el localstorage
+            localStorage.setItem("nombre", data);  
+	extraeLocalStrona();
+   //setear el localstorage
         });					//TODO:si no
 
     extraeLocalStrona();
@@ -112,9 +115,11 @@ function extraeLocalStrona() {
 function reconstruir(varAre) {
     let cont = 0;
 	
-
-    var lo = varAre;
-
+	contenedor_input.innerHTML = ''
+    
+	if(!varAre) return;
+	var lo = varAre;
+    
 
 
     for (let i = 0; i < lo.length; i++) {
