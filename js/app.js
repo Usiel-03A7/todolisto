@@ -1,78 +1,76 @@
 const boton = document.querySelector('.boton');
-const entradaTex = document.querySelector('.entradaTex');
-const contenedor_input = document.getElementById('contenedor_input');
-var nombreList = [];
+const entradaTexto = document.querySelector('.entradaTex');
+const contenedorImput = document.getElementById('contenedor_input');
+var listaCaracteres = [];
 
 boton.addEventListener("click", (e) => {
     e.preventDefault();
-    const taskk = entradaTex.value;
+    const tarea = entradaTexto.value;
 
-    if (!taskk) {
+    if (!tarea) {
         alert('Se recomienda ingresar un dato');
         return;
     }
 
-    const tImputEl = document.createElement('input');
-    tImputEl.classList.add('text');
-    tImputEl.type = 'text';
-    tImputEl.value = taskk;
-    guardarLocalStorage(tImputEl.value);
+    const elementoImput = document.createElement('input');
+    elementoImput.classList.add('text');
+    elementoImput.type = 'text';
+    elementoImput.value = tarea;
+    guardarLocalStorage(elementoImput.value);
 
-    tImputEl.setAttribute('readonly', 'readonly');
+    elementoImput.setAttribute('readonly', 'readonly');
 
 
 
     const accion = document.createElement('div')
     accion.classList.add('actions');
 
-    const edit = document.createElement('button')
-    edit.type = 'submit';
-    edit.classList.add('edit');
-    edit.innerHTML = 'Editar';
-    const done = document.createElement('button')
-    done.classList.add('done');
-    done.type = 'submit';
-    done.innerHTML = 'Done';
+    const editar = document.createElement('button')
+    editar.type = 'submit';
+    editar.classList.add('edit');
+    editar.innerHTML = 'Editar';
+    const listo = document.createElement('button')
+    listo.classList.add('done');
+    listo.type = 'submit';
+    listo.innerHTML = 'listo';
 
-    accion.appendChild(edit);
-    edit.addEventListener('click', (e) => {
-        tImputEl.removeAttribute('readonly');
-        accion.appendChild(done);
+    accion.appendChild(editar);
+    editar.addEventListener('click', (e) => {
+        elementoImput.removeAttribute('readonly');
+        accion.appendChild(listo);
 
 
     })
 
-    tImputEl.setAttribute('readonly', 'readonly');
+    elementoImput.setAttribute('readonly', 'readonly');
 
 
-    done.addEventListener('click', (e) => {
+    listo.addEventListener('click', (e) => {
 
-        tImputEl.setAttribute('readonly', 'readonly');
-        guardarLocalStorage(tImputEl.value);
-        done.remove();
+        elementoImput.setAttribute('readonly', 'readonly');
+        guardarLocalStorage(elementoImput.value);
+        listo.remove();
     })
-    const delet = document.createElement('button');
-    delet.classList.add('delete');
-    delet.innerHTML = 'Eliminar';
+    const eliminar = document.createElement('button');
+    eliminar.classList.add('delete');
+    eliminar.innerHTML = 'Eliminar';
 
-    contenedor_input.appendChild(tImputEl);
+    contenedorImput.appendChild(elementoImput);
 
-    accion.appendChild(delet);
-    contenedor_input.appendChild(accion);
+    accion.appendChild(eliminar);
+    contenedorImput.appendChild(accion);
 
-    delet.addEventListener('click', () => {
-        tImputEl.remove();
-        edit.remove();
-        delet.remove();
-        done.remove();
+    eliminar.addEventListener('click', () => {
+        elementoImput.remove();
+        editar.remove();
+        eliminar.remove();
+        listo.remove();
     })
-    entradaTex.value = '';
+    entradaTexto.value = '';
 
 
 })
-var EDS =[];
-
-EDS = extraerDataSave();
+extraerDataSave();
 
 const extraer = document.querySelector('.extraer')
 extraer.addEventListener('click', () => {
@@ -82,23 +80,23 @@ extraer.addEventListener('click', () => {
 
 
 })
-function guardarLocalStorage(no) {
-    nombreList.push(no);
-    localStorage.setItem("nombre", JSON.stringify(nombreList));
-    postArchivo(JSON.stringify(nombreList));
+function guardarLocalStorage(elementoImput) {
+    listaCaracteres.push(elementoImput);
+    localStorage.setItem("nombre", JSON.stringify(listaCaracteres));
+    postArchivo(JSON.stringify(listaCaracteres));
 }
 
 function extraerDataSave() {
-	var  x;
-     var correo = document.getElementById("uCorreo").innerText;
-    fetch('./datos/'+correo + "?"+Math.random()) //Consultar datos
+    var x;
+    var correo = document.getElementById("uCorreo").innerText;
+    fetch('./datos/' + correo + "?" + Math.random()) //Consultar datos
         .then(response => response.text()) //Si se obtuvieron, 
         .then(data => {
             // Do something with your data
             console.log(data);
-            localStorage.setItem("nombre", data);  
-	extraeLocalStrona();
-   //setear el localstorage
+            localStorage.setItem("nombre", data);
+            extraeLocalStrona();
+            //setear el localstorage
         });					//TODO:si no
 
     extraeLocalStrona();
@@ -107,93 +105,99 @@ function extraerDataSave() {
 
 function extraeLocalStrona() {
 
-    var newData = localStorage.getItem("nombre");
-    nombreList = JSON.parse(newData);
-    reconstruir(nombreList);
+    var datoNuevo = localStorage.getItem("nombre");
+    listaCaracteres = JSON.parse(datoNuevo);
+    reconstruir(listaCaracteres);
 }
 
-function reconstruir(varAre) {
+function reconstruir(listaCaracteres) {
     let cont = 0;
+
+    contenedorImput.innerHTML = ''
+
+    if (!listaCaracteres) return;
+    var nuevaListaDeCaracteres = listaCaracteres;
+
+
+
+    for (let i = 0; i < nuevaListaDeCaracteres.length; i++) {
+
+        const nuevoInput = document.createElement('input');
+        nuevoInput.classList.add('text')
+        nuevoInput.type = 'text';
+	nuevoInput.setAttribute('name',i)
+        nuevoInput.value = nuevaListaDeCaracteres[i];
 	
-	contenedor_input.innerHTML = ''
-    
-	if(!varAre) return;
-	var lo = varAre;
-    
-
-
-    for (let i = 0; i < lo.length; i++) {
-
-        const newImp = document.createElement('input');
-        newImp.classList.add('text')
-        newImp.type = 'text';
-        newImp.value = lo[i];
-
-        newImp.setAttribute('readonly', 'readonly')
+        nuevoInput.setAttribute('readonly', 'readonly')
 
 
 
-        const newaccion = document.createElement('div')
-        newaccion.classList.add('actions')
+        const nuevaAccion = document.createElement('div')
+        nuevaAccion.classList.add('actions')
 
-        const edit = document.createElement('button')
-        edit.type = 'submit';
-        edit.classList.add('edit');
-        edit.innerHTML = 'Editar';
-        const done = document.createElement('button')
-        done.classList.add('done')
-        done.type = 'submit';
-        done.innerHTML = 'Done';
+        const editar = document.createElement('button')
+        editar.type = 'submit';
+        editar.classList.add('edit');
+        editar.innerHTML = 'Editar';
+        const listo = document.createElement('button')
+        listo.classList.add('done')
+        listo.type = 'submit';
+        listo.innerHTML = 'listo';
 
-        newaccion.appendChild(edit);
-        edit.addEventListener('click', (e) => {
-            newImp.removeAttribute('readonly');
-            newaccion.appendChild(done);
+        nuevaAccion.appendChild(editar);
+        editar.addEventListener('click', (e) => {
+            nuevoInput.removeAttribute('readonly');
+            nuevaAccion.appendChild(listo);
 
 
 
         })
 
-        newImp.setAttribute('readonly', 'readonly');
+        nuevoInput.setAttribute('readonly', 'readonly');
 
 
-        done.addEventListener('click', (e) => {
+        listo.addEventListener('click', (e) => {
 
-            newImp.setAttribute('readonly', 'readonly');
-            guardarLocalStorage(newImp.value);
-            done.remove();
+            nuevoInput.setAttribute('readonly', 'readonly');
+            guardarLocalStorage(nuevoInput.value);
+            listo.remove();
         })
-        const delet = document.createElement('button')
-        delet.classList.add('delete');
-        delet.innerHTML = 'Eliminar';
+        const eliminar = document.createElement('button')
+        eliminar.classList.add('delete');
+        eliminar.innerHTML = 'Eliminar';
 
-        contenedor_input.appendChild(newImp);
+        contenedorImput.appendChild(nuevoInput);
 
-        newaccion.appendChild(delet);
-        contenedor_input.appendChild(newaccion);
+        nuevaAccion.appendChild(eliminar);
+        contenedorImput.appendChild(nuevaAccion);
 
-        delet.addEventListener('click', () => {
-            newImp.remove();
-            edit.remove();
-            delet.remove();
-            done.remove();
+        eliminar.addEventListener('click', () => {
+            var elementoParaBorrar = nuevoInput.getAttribute('name');
+            borrarUnElemento(elementoParaBorrar,listaCaracteres);
+            nuevoInput.remove();
+            editar.remove();
+            eliminar.remove();
+            listo.remove();
         })
 
     }
 }
-function eliminarar(){
+function borrarUnElemento(elementoParaBorrar,listaCaracteres) {
+	let inicial = listaCaracteres.indexOf(elementoParaBorrar);
+        listaCaracteres.splice(inicial ,1);
+	console.log(listaCaracteres);
 
 }
 
-function postArchivo(archi) {
- var correo = document.getElementById("uCorreo").innerText;
-	var usuario = {
-	archi: archi,
-	correo: correo
+function postArchivo(listaCaracteres) {
+    var correo = document.getElementById("uCorreo").innerText;
+    var usuario = {
+        listaCaracteres: listaCaracteres,
+        correo: correo
 
-	};
-	var cadena = JSON.stringify(usuario);
-	console.log(cadena);
+    };
+    var cadena = JSON.stringify(usuario);
+    console.log(cadena);
 
     fetch('https://sistemas.cruzperez.com/usiel/back.php',
         {
@@ -202,7 +206,7 @@ function postArchivo(archi) {
                 'Content-Type': 'application/json'
             },
             method: "POST",
-            body: cadena 
+            body: cadena
         })
         .then(function (res) { console.log(res) })
         .catch(function (res) { console.log(res) })
