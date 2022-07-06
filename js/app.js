@@ -183,9 +183,10 @@ function reconstruir(listaCaracteres) {
     }
 }
 function borrarUnElemento(elementoParaBorrar,listaCaracteres) {
-	let inicial = listaCaracteres.indexOf(elementoParaBorrar);
-        listaCaracteres.splice(inicial ,1);
+
+        listaCaracteres.splice(elementoParaBorrar,1);
 	console.log(listaCaracteres);
+	postArchivo(listaCaracteres);
 
 }
 
