@@ -70,11 +70,11 @@ boton.addEventListener("click", (e) => {
 
 
 })
-extraerDataSave();
+//extraerDataSave();
 
 const extraer = document.querySelector('.extraer')
 extraer.addEventListener('click', () => {
-
+    console.log('Holi si entra aqui')
     //extraeLocalStrona();
     extraerDataSave();
 
@@ -87,21 +87,33 @@ function guardarLocalStorage(elementoImput) {
 }
 
 function extraerDataSave() {
-    var x;
+  
     var correo = document.getElementById("uCorreo").innerText;
     fetch('./datos/' + correo + "?" + Math.random()) //Consultar datos
-        .then(response => response.text()) //Si se obtuvieron, 
-        .then(data => {
+	.then(function(response) {
+	    if (!response.ok) {
+	      throw new Error('Bad status code from server.');
+	    }
+	    return response.json();
+	  })
+	  .then(function(responseData) {
+	    if (!(responseData.data && responseData.data.success)) {
+	      throw new Error('Bad response from server.');
+	    }
+  });
+       // .then(response => response.text()) //Si se obtuvieron, 
+     //   .then(data => {
             // Do something with your data
-            console.log(data);
-            localStorage.setItem("nombre", data);
-            extraeLocalStrona();
+       //     console.log(data);
+        //    localStorage.setItem("nombre", data);
+         //   extraeLocalStrona();
             //setear el localstorage
-        });					//TODO:si no
+					//TODO:si no
+}
 
     extraeLocalStrona();
 
-}
+
 
 function extraeLocalStrona() {
 
@@ -111,8 +123,8 @@ function extraeLocalStrona() {
 }
 
 function reconstruir(listaCaracteres) {
-    let cont = 0;
-
+	console.log('si entró ala funcion de reconstruir');
+	
     contenedorImput.innerHTML = ''
 
     if (!listaCaracteres) return;
@@ -170,23 +182,41 @@ function reconstruir(listaCaracteres) {
 
         nuevaAccion.appendChild(eliminar);
         contenedorImput.appendChild(nuevaAccion);
+	eliminar.addEventListener('click', () => {
+    	 console.log('Holi desde el for');
+   	  nuevoInput.remove();
+    	 editar.remove();
+    	 eliminar.remove();
 
-        eliminar.addEventListener('click', () => {
-            var elementoParaBorrar = nuevoInput.getAttribute('name');
-            borrarUnElemento(elementoParaBorrar,listaCaracteres);
-            nuevoInput.remove();
-            editar.remove();
-            eliminar.remove();
-            listo.remove();
-        })
+
+
+})
+
+        
 
     }
+	console.log('salió de la funcion de reconstruir');
 }
-function borrarUnElemento(elementoParaBorrar,listaCaracteres) {
 
-        listaCaracteres.splice(elementoParaBorrar,1);
+const eliminar = document.querySelector('.delete');
+const editar = document.querySelector('.edit');
+const listo = document.querySelector('.done');
+const nuevoInput = document.querySelector('.text');
+eliminar.addEventListener('click', () => {
+    console.log('Holi');
+    nuevoInput.remove();
+    editar.remove();
+    eliminar.remove();
+
+
+
+})
+
+
+function borrarUnElemento(elementoParaBorrar,listaCaracteres) {
+	let inicial = listaCaracteres.indexOf(elementoParaBorrar);
+        listaCaracteres.splice(inicial ,1);
 	console.log(listaCaracteres);
-	postArchivo(listaCaracteres);
 
 }
 
