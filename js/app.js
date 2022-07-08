@@ -1,145 +1,142 @@
 const boton = document.querySelector('.boton');
-const entradaTexto = document.querySelector('.entradaTex');
-const contenedorImput = document.getElementById('contenedor_input');
-var listaCaracteres = [];
+const entradaTex = document.querySelector('.entradaTex');
+const contenedor_input = document.getElementById('contenedor_input');
 
+let arregloCaracteres = [];
 boton.addEventListener("click", (e) => {
-    e.preventDefault();
-    const tarea = entradaTexto.value;
 
+    e.preventDefault();
+    const tarea = entradaTex.value;
+//Evalúa el tipo de tarea que va recivir en caso de ser vacío no truena
     if (!tarea) {
         alert('Se recomienda ingresar un dato');
         return;
     }
 
-    const elementoImput = document.createElement('input');
-    elementoImput.classList.add('text');
-    elementoImput.type = 'text';
-    elementoImput.value = tarea;
-    guardarLocalStorage(elementoImput.value);
+    const elementoInput = document.createElement('input');//construye el elemento nuevo a pintar
+    elementoInput.classList.add('text');
+    elementoInput.type = 'text';
+    elementoInput.value = tarea;
 
-    elementoImput.setAttribute('readonly', 'readonly');
+    guardarLocalStorage(elementoInput.value); //guarda lo capturado en localstorage
 
+    elementoInput.setAttribute('readonly', 'readonly');
 
+//inicia con la creación del padre de los elementos a crear
 
     const accion = document.createElement('div')
     accion.classList.add('actions');
+
+// creación de los botones o elementos hijos para añadirlos y pintarlos 
 
     const editar = document.createElement('button')
     editar.type = 'submit';
     editar.classList.add('edit');
     editar.innerHTML = 'Editar';
+
     const listo = document.createElement('button')
     listo.classList.add('done');
     listo.type = 'submit';
     listo.innerHTML = 'listo';
 
-    accion.appendChild(editar);
+    accion.appendChild(editar);  //añade el hijo para poderlo mostrar (pintar)
+
     editar.addEventListener('click', (e) => {
-        elementoImput.removeAttribute('readonly');
+        elementoInput.removeAttribute('readonly');
         accion.appendChild(listo);
 
 
     })
 
-    elementoImput.setAttribute('readonly', 'readonly');
+    elementoInput.setAttribute('readonly', 'readonly');
 
 
     listo.addEventListener('click', (e) => {
 
-        elementoImput.setAttribute('readonly', 'readonly');
-        guardarLocalStorage(elementoImput.value);
+        elementoInput.setAttribute('readonly', 'readonly');
+        guardarLocalStorage(elementoInput.value);
         listo.remove();
     })
     const eliminar = document.createElement('button');
     eliminar.classList.add('delete');
     eliminar.innerHTML = 'Eliminar';
 
-    contenedorImput.appendChild(elementoImput);
+    contenedor_input.appendChild(elementoInput);
 
     accion.appendChild(eliminar);
-    contenedorImput.appendChild(accion);
+    contenedor_input.appendChild(accion);
 
     eliminar.addEventListener('click', () => {
-        elementoImput.remove();
+        elementoInput.remove();
         editar.remove();
         eliminar.remove();
         listo.remove();
     })
-    entradaTexto.value = '';
+    entradaTex.value = '';
 
 
 })
-//extraerDataSave();
 
-const extraer = document.querySelector('.extraer')
-extraer.addEventListener('click', () => {
-    console.log('Holi si entra aqui')
-    //extraeLocalStrona();
-    extraerDataSave();
+//llamada para pintar los nuevos datos 
+extraerDataSave();
 
 
-})
-function guardarLocalStorage(elementoImput) {
-    listaCaracteres.push(elementoImput);
-    localStorage.setItem("nombre", JSON.stringify(listaCaracteres));
-    postArchivo(JSON.stringify(listaCaracteres));
+
+
+
+// Se hace el guardado del dato  en un arreglo 
+function guardarLocalStorage(elementoInput) {
+    arregloCaracteres.push(elementoInput);
+    localStorage.setItem("nombre", JSON.stringify(arregloCaracteres)); //el arreglo se guarda en almacenamiento local convertido
+    postArchivo(JSON.stringify(arregloCaracteres));                     // y etiquetado  para mandar a guardar en backend
 }
 
+// Extraer el item de almacenamiento local 
 function extraerDataSave() {
-  
-    var correo = document.getElementById("uCorreo").innerText;
-    fetch('./datos/' + correo + "?" + Math.random()) //Consultar datos
-	.then(function(response) {
-	    if (!response.ok) {
-	      throw new Error('Bad status code from server.');
-	    }
-	    return response.json();
-	  })
-	  .then(function(responseData) {
-	    if (!(responseData.data && responseData.data.success)) {
-	      throw new Error('Bad response from server.');
-	    }
-  });
-       // .then(response => response.text()) //Si se obtuvieron, 
-     //   .then(data => {
+
+     var correo = document.getElementById("uCorreo").innerText;
+    fetch('./datos/'+correo) //Consultar datos
+        .then(response => response.text()) //Si se obtuvieron, 
+        .then(data => {
             // Do something with your data
-       //     console.log(data);
-        //    localStorage.setItem("nombre", data);
-         //   extraeLocalStrona();
-            //setear el localstorage
-					//TODO:si no
-}
+            console.log(data);
+            localStorage.setItem("nombre", data);  
+//	extraeLocalStrona();
+   //setear el localstorage
+        });					//TODO:si no
 
     extraeLocalStrona();
 
-
-
+}
+// traer el item de almacenamiento local con la etiqueta que se le da al almacenarlo 
 function extraeLocalStrona() {
 
-    var datoNuevo = localStorage.getItem("nombre");
-    listaCaracteres = JSON.parse(datoNuevo);
-    reconstruir(listaCaracteres);
+    var nuevoDato = localStorage.getItem("nombre"); //asígarle lo que trae el item guardado (en este caso arreglo)
+    if (!nuevoDato) return;
+    arregloCaracteres = JSON.parse(nuevoDato); //convertirlo de nuevo de JSON a lo que es (en este caso un arreglo)
+    reconstruir(arregloCaracteres); //Mandar el arreglo a construir cx
 }
-
-function reconstruir(listaCaracteres) {
-	console.log('si entró ala funcion de reconstruir');
-	
-    contenedorImput.innerHTML = ''
-
-    if (!listaCaracteres) return;
-    var nuevaListaDeCaracteres = listaCaracteres;
+// Ciclo para reconstrucción de los items almacenados en el arreglo 
+function reconstruir(arregloCaracteres) {
 
 
+    contenedor_input.innerHTML = '' //Reset al input principal
 
-    for (let i = 0; i < nuevaListaDeCaracteres.length; i++) {
+    if (!arregloCaracteres) return; //validación del arreglo vacío 
+
+    var NuevoArregloCaracteres = arregloCaracteres;
+    var arregloCaracteres= NuevoArregloCaracteres ;
+
+
+
+
+    for (let i = 0; i < NuevoArregloCaracteres.length; i++) { //inicio del ciclo para pintar
 
         const nuevoInput = document.createElement('input');
         nuevoInput.classList.add('text')
         nuevoInput.type = 'text';
-	nuevoInput.setAttribute('name',i)
-        nuevoInput.value = nuevaListaDeCaracteres[i];
-	
+        nuevoInput.value = NuevoArregloCaracteres[i];  //asignación del valor del nuevo arreglo en su parte i al valor del nuevo input
+        nuevoInput.setAttribute('name', i);       //para le borrado del dato se necesita un atributo que se le asigna para su posterior eliminado
         nuevoInput.setAttribute('readonly', 'readonly')
 
 
@@ -161,8 +158,6 @@ function reconstruir(listaCaracteres) {
             nuevoInput.removeAttribute('readonly');
             nuevaAccion.appendChild(listo);
 
-
-
         })
 
         nuevoInput.setAttribute('readonly', 'readonly');
@@ -178,52 +173,29 @@ function reconstruir(listaCaracteres) {
         eliminar.classList.add('delete');
         eliminar.innerHTML = 'Eliminar';
 
-        contenedorImput.appendChild(nuevoInput);
+        contenedor_input.appendChild(nuevoInput);
 
         nuevaAccion.appendChild(eliminar);
-        contenedorImput.appendChild(nuevaAccion);
-	eliminar.addEventListener('click', () => {
-    	 console.log('Holi desde el for');
-   	  nuevoInput.remove();
-    	 editar.remove();
-    	 eliminar.remove();
+        contenedor_input.appendChild(nuevaAccion);
 
-
-
-})
-
-        
+        eliminar.addEventListener('click', () => {
+            var elementoParaBorrar = nuevoInput.getAttribute('name');
+            nuevoInput.remove();
+            editar.remove();
+            eliminar.remove();
+            eliminarElemento(elementoParaBorrar,arregloCaracteres);
+        })
 
     }
-	console.log('salió de la funcion de reconstruir');
+}
+function eliminarElemento(elementoParaBorrar,arregloCaracteres) {
+    console.log(`El elemento a borrar es ${parseInt(elementoParaBorrar)+parseInt(1)} y el arreglo es ${arregloCaracteres}`)
 }
 
-const eliminar = document.querySelector('.delete');
-const editar = document.querySelector('.edit');
-const listo = document.querySelector('.done');
-const nuevoInput = document.querySelector('.text');
-eliminar.addEventListener('click', () => {
-    console.log('Holi');
-    nuevoInput.remove();
-    editar.remove();
-    eliminar.remove();
-
-
-
-})
-
-
-function borrarUnElemento(elementoParaBorrar,listaCaracteres) {
-	let inicial = listaCaracteres.indexOf(elementoParaBorrar);
-        listaCaracteres.splice(inicial ,1);
-	console.log(listaCaracteres);
-
-}
-
-function postArchivo(listaCaracteres) {
+function postArchivo(arregloCaracteres) {
     var correo = document.getElementById("uCorreo").innerText;
     var usuario = {
-        listaCaracteres: listaCaracteres,
+        arregloCaracteres: arregloCaracteres,
         correo: correo
 
     };
