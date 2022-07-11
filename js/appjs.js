@@ -17,6 +17,7 @@ boton.addEventListener("click", (e) => {
     tImputEl.classList.add('text');
     tImputEl.type = 'text';
     tImputEl.value = taskk;
+
     guardarLocalStorage(tImputEl.value);
 
     tImputEl.setAttribute('readonly', 'readonly');
@@ -26,6 +27,8 @@ boton.addEventListener("click", (e) => {
     const accion = document.createElement('div')
     accion.classList.add('actions');
 
+
+    
     const edit = document.createElement('button')
     edit.type = 'submit';
     edit.classList.add('edit');
