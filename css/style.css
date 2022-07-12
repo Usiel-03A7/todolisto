@@ -1,8 +1,64 @@
-*{
+* {
     margin: 0;
     padding: 0;
 }
+
 html {
     box-sizing: border-box;
     font-size: 62.5%;
+}
+
+.contenedor {
+    text-align: center;
+}
+
+.boton {
+    background-color: #000;
+    color: #fff;
+}
+
+.edit {
+    text-transform: uppercase;
+    color: #000;
+    background: #e5ff00;
+    border: none;
+    margin-right: 1rem;
+    border-radius: 4px;
+}
+
+.delete {
+    text-transform: uppercase;
+    color: #000;
+    border-radius: 4px;
+    background: #00ffff;
+    border: none;
+    margin-right: 1rem;
+}
+
+.done {
+    text-transform: uppercase;
+    border: none;
+    margin-right: 1rem;
+    border-radius: 4px;
+    background: #f700ff;
+}
+
+input {
+    border-radius: 8px;
+    border: none;
+    width: 18rem;
+    height: 3rem;
+    color: #fff;
+    font-family: sans-serif;
+    font-size: 2rem;
+    text-align: center;
+    margin-top: 2rem;
+    background: linear-gradient(to right, #005397, #0401cf);
+}
+
+#contenedor_input {
+    background: linear-gradient(to right, #3c9700, #008799);
+    color: #fff;
+    text-align: center;
+    gap: 2rem;
 }

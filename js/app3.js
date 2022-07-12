@@ -1,129 +1,147 @@
 const boton = document.querySelector('.boton');
-const entradaTex = document.querySelector('.entradaTex');
-const contenedor_input = document.getElementById('contenedor_input');
-var arregloCaracteres = [];
+const entradaTexto = document.querySelector('.entradaTex');
+const contenedorImput = document.getElementById('contenedor_input');
+   const listaCaracteres = [];
+
 boton.addEventListener("click", (e) => {
+
     e.preventDefault();
-    const tarea = entradaTex.value;
+    const tarea = entradaTexto.value;
 
     if (!tarea) {
         alert('Se recomienda ingresar un dato');
         return;
     }
 
-    const elementoInput = document.createElement('input');
-    elementoInput.classList.add('text')
-    elementoInput.type = 'text';
-    elementoInput.value = tarea;
-    guardarLocalStorage(elementoInput.value);
+    const elementoImput = document.createElement('input');
+    elementoImput.classList.add('text');
+    elementoImput.type = 'text';
+    elementoImput.value = tarea;
+    listaCaracteres.push(elementoImput.value);
+    guardarLocalStorage(listaCaracteres);
 
-    elementoInput.setAttribute('readonly', 'readonly')
+    elementoImput.setAttribute('readonly', 'readonly');
 
 
 
     const accion = document.createElement('div')
-    accion.classList.add('actions')
+    accion.classList.add('actions');
 
     const editar = document.createElement('button')
     editar.type = 'submit';
     editar.classList.add('edit');
     editar.innerHTML = 'Editar';
     const listo = document.createElement('button')
-    listo.classList.add('listo')
+    listo.classList.add('done');
     listo.type = 'submit';
-    listo.innerHTML = 'Done';
+    listo.innerHTML = 'listo';
 
     accion.appendChild(editar);
-    editar.addEventListener('click', (e) => {
-        elementoInput.removeAttribute('readonly');
-        accion.appendChild(listo);
+   // editar.addEventListener('click', (e) => {
+     //   elementoImput.removeAttribute('readonly');
+       // accion.appendChild(listo);
 
 
-    })
+    //})
 
-    elementoInput.setAttribute('readonly', 'readonly');
+    elementoImput.setAttribute('readonly', 'readonly');
 
 
     listo.addEventListener('click', (e) => {
 
-        elementoInput.setAttribute('readonly', 'readonly');
-        guardarLocalStorage(elementoInput.value);
+        elementoImput.setAttribute('readonly', 'readonly');
+        guardarLocalStorage(elementoImput.value);
         listo.remove();
     })
-    const eliminar = document.createElement('button')
+    const eliminar = document.createElement('button');
     eliminar.classList.add('delete');
     eliminar.innerHTML = 'Eliminar';
 
-    contenedor_input.appendChild(elementoInput);
+    contenedorImput.appendChild(elementoImput);
 
     accion.appendChild(eliminar);
-    contenedor_input.appendChild(accion);
+    contenedorImput.appendChild(accion);
 
     eliminar.addEventListener('click', () => {
-        elementoInput.remove();
+        elementoImput.remove();
         editar.remove();
         eliminar.remove();
         listo.remove();
     })
-    entradaTex.value = '';
+    entradaTexto.value = '';
 
 
 })
+//extraerDataSave();
+
 const extraer = document.querySelector('.extraer')
-extraer.addEventListener('click', () => {
 
-    //extraeLocalStrona();
-    extraerDataSave();
-
-
-})
-function guardarLocalStorage(elementoInput) {
-    arregloCaracteres.push(elementoInput);
-    localStorage.setItem("nombre", JSON.stringify(arregloCaracteres));
-    postArchivo(JSON.stringify(arregloCaracteres));
+function guardarLocalStorage(listaCaracteres) {
+    localStorage.setItem("nombre", JSON.stringify(listaCaracteres));
+    postArchivo(JSON.stringify(listaCaracteres));
 }
 
 function extraerDataSave() {
-    
-    fetch('./datos/prueba.txt') //Consultar datos
-        .then(response => response.text()) //Si se obtuvieron, 
-        .then(data => {
-            // Do something with your data
-            console.log(data);
-            localStorage.setItem("nombre", data);     //setear el localstorage
-        });					//TODO:si no
-
-    extraeLocalStrona();
-
+var listaCaracteres = [];
+    var correo = document.getElementById("uCorreo").innerText;
+    fetch('./datos/' + correo + "?" + Math.random()) //Consultar datos
+        .then(function (response) {
+            if (!response.ok) {
+                throw new Error('Bad status code from server.');
+            }
+            return response.json();
+        })
+        .then(function (responseData) {
+            extraeLocalStrona();
+            if (!(responseData.data && responseData.data.success)) {
+                throw new Error('Bad response from server.');
+            }
+        });
+    // .then(response => response.text()) //Si se obtuvieron, 
+    //   .then(data => {
+    // Do something with your data
+    //     console.log(data);
+    //    localStorage.setItem("nombre", data);
+    //   extraeLocalStrona();
+    //setear el localstorage
+    //TODO:si no
 }
+
+extraeLocalStrona();
+
+
 
 function extraeLocalStrona() {
 
-    var newData = localStorage.getItem("nombre");
-    reconstruir(newData);
+    var datoNuevo = localStorage.getItem("nombre");
+    listaCaracteres = JSON.parse(datoNuevo);
+    reconstruir(listaCaracteres);
 }
 
-function reconstruir(varAre) {
-    let cont = 0;
-	
+function reconstruir(listaCaracteres) {
+    console.log('si entró ala funcion de reconstruir');
 
-    var lo = JSON.parse(varAre);
+    contenedorImput.innerHTML = ''
 
-
-
-    for (let i = 0; i < lo.length; i++) {
-
-        const newImp = document.createElement('input');
-        newImp.classList.add('text')
-        newImp.type = 'text';
-        newImp.value = lo[i];
-
-        newImp.setAttribute('readonly', 'readonly')
+    if (!listaCaracteres) return;
+    var nuevaListaDeCaracteres = listaCaracteres;
 
 
 
-        const newaccion = document.createElement('div')
-        newaccion.classList.add('actions')
+    for (let i = 0; i < nuevaListaDeCaracteres.length; i++) {
+
+        const nuevoInput = document.createElement('input');
+        nuevoInput.classList.add('text')
+        nuevoInput.type = 'text';
+        nuevoInput.setAttribute('name', i)
+        nuevoInput.value = nuevaListaDeCaracteres[i];
+
+        nuevoInput.setAttribute('readonly', 'readonly')
+
+
+
+        const nuevaAccion = document.createElement('div')
+        nuevaAccion.classList.add('actions')
 
         const editar = document.createElement('button')
         editar.type = 'submit';
@@ -132,53 +150,87 @@ function reconstruir(varAre) {
         const listo = document.createElement('button')
         listo.classList.add('done')
         listo.type = 'submit';
-        listo.innerHTML = 'Done';
+        listo.innerHTML = 'listo';
 
-        newaccion.appendChild(editar);
+        nuevaAccion.appendChild(editar);
         editar.addEventListener('click', (e) => {
-            newImp.removeAttribute('readonly');
-            newaccion.appendChild(listo);
-
-
-
+            nuevoInput.removeAttribute('readonly');
+            nuevaAccion.appendChild(listo);
         })
 
-        newImp.setAttribute('readonly', 'readonly');
+        nuevoInput.setAttribute('readonly', 'readonly');
 
 
         listo.addEventListener('click', (e) => {
 
-            newImp.setAttribute('readonly', 'readonly');
-            guardarLocalStorage(newImp.value);
-            listo.remove();
+            nuevoInput.setAttribute('readonly', 'readonly');
+          //  guardarLocalStorage(nuevaListaDeCaracteres)
+           concole.log('listo');
+            //listo.remove();
         })
         const eliminar = document.createElement('button')
         eliminar.classList.add('delete');
         eliminar.innerHTML = 'Eliminar';
 
-        contenedor_input.appendChild(newImp);
+        contenedorImput.appendChild(nuevoInput);
 
-        newaccion.appendChild(eliminar);
-        contenedor_input.appendChild(newaccion);
-
+        nuevaAccion.appendChild(eliminar);
+        contenedorImput.appendChild(nuevaAccion);
         eliminar.addEventListener('click', () => {
-            newImp.remove();
+            var elementoParaBorrar = nuevoInput.getAttribute('name');
+            nuevoInput.remove();
             editar.remove();
             eliminar.remove();
-            listo.remove();
+            eliminarElemento(elementoParaBorrar, nuevaListaDeCaracteres);
         })
+
+
+
     }
+    console.log('salió de la funcion de reconstruir');
+}
+function eliminarElemento(elementoParaBorrar, nuevaListaDeCaracteres) {
+    console.log('el elemento es el numero: '+elementoParaBorrar);
+    
+    console.log(`El elemento a borrar es ${elementoParaBorrar} y el arreglo es ${nuevaListaDeCaracteres}`);
+     
+    nuevaListaDeCaracteres.splice( elementoParaBorrar, 1 );
+    console.log('existoso');
+    console.log(nuevaListaDeCaracteres);
+    guardarLocalStorage(nuevaListaDeCaracteres)
+
+}
+// const eliminar = document.querySelector('.delete');
+// const editar = document.querySelector('.edit');
+// const listo = document.querySelector('.done');
+// const nuevoInput = document.querySelector('.text');
+// eliminar.addEventListener('click', () => {
+//     console.log('Holi');
+//     nuevoInput.remove();
+//     editar.remove();
+//     eliminar.remove();
+
+
+
+// })
+
+
+function borrarUnElemento(elementoParaBorrar, listaCaracteres) {
+    let inicial = listaCaracteres.indexOf(elementoParaBorrar);
+    listaCaracteres.splice(inicial, 1);
+    console.log(listaCaracteres);
+
 }
 
-function postArchivo(elementoInput) {
- var correo = document.getElementById("uCorreo").innerText;
-	var usuario = {
-	archi: archi,
-	correo: correo
+function postArchivo(listaCaracteres) {
+    var correo = document.getElementById("uCorreo").innerText;
+    var usuario = {
+        listaCaracteres: listaCaracteres,
+        correo: correo
 
-	};
-	var cadena = JSON.stringify(usuario);
-	console.log(cadena);
+    };
+    var cadena = JSON.stringify(usuario);
+    console.log(cadena);
 
     fetch('https://sistemas.cruzperez.com/usiel/back.php',
         {
@@ -187,8 +239,8 @@ function postArchivo(elementoInput) {
                 'Content-Type': 'application/json'
             },
             method: "POST",
-            body: cadena 
+            body: cadena
         })
         .then(function (res) { console.log(res) })
         .catch(function (res) { console.log(res) })
-}
+}   

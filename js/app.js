@@ -1,9 +1,9 @@
 const boton = document.querySelector('.boton');
 const entradaTexto = document.querySelector('.entradaTex');
 const contenedorImput = document.getElementById('contenedor_input');
-var listaCaracteres = [];
 
 boton.addEventListener("click", (e) => {
+    var listaCaracteres = [];
     e.preventDefault();
     const tarea = entradaTexto.value;
 
@@ -152,14 +152,7 @@ function reconstruir(listaCaracteres) {
         listo.innerHTML = 'listo';
 
         nuevaAccion.appendChild(editar);
-        editar.addEventListener('click', (e) => {
-            nuevoInput.removeAttribute('readonly');
-            nuevaAccion.appendChild(listo);
-
-
-
-        })
-
+        
         nuevoInput.setAttribute('readonly', 'readonly');
 
 
