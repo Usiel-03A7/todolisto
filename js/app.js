@@ -8,7 +8,7 @@ boton.addEventListener("click", (e) => {
     e.preventDefault();
     const tarea = entradaTexto.value;
 
-    if (!tarea ) {
+    if (!tarea) {
         alert('Se recomienda ingresar un dato');
         return;
     }
@@ -46,10 +46,10 @@ boton.addEventListener("click", (e) => {
 
     elementoImput.setAttribute('readonly', 'readonly');
 
-    
+
     listo.addEventListener('click', (e) => {
         let elementoEditado = elementoImput.getAttribute('name');
-        listado[elementoEditado]=elementoImput.value
+        listado[elementoEditado] = elementoImput.value
         elementoImput.setAttribute('readonly', 'readonly');
         guardarLocalStorage(listado);
         listo.remove();
@@ -63,12 +63,21 @@ boton.addEventListener("click", (e) => {
     accion.appendChild(eliminar);
     contenedorImput.appendChild(accion);
 
+
     eliminar.addEventListener('click', () => {
+        console.log('eliminar enviar');
+        var elementoParaBorrar = elementoImput.getAttribute('name');
         elementoImput.remove();
         editar.remove();
         eliminar.remove();
-        listo.remove();
+        eliminarElemento(elementoParaBorrar, listado);
     })
+
+
+
+
+
+
     entradaTexto.value = '';
 
 
@@ -76,9 +85,9 @@ boton.addEventListener("click", (e) => {
 
 const extraerDataSave = async () => {
     var correo = document.getElementById("uCorreo").textContent.trim();
-    const response = await fetch('./datos/' + correo )
-    const data  = await response.text()
-    
+    const response = await fetch('./datos/' + correo)
+    const data = await response.text()
+
     console.log('data: ', data)
     extraeLocalStrona(JSON.parse(data));
 }
@@ -91,9 +100,9 @@ const extraer = document.querySelector('.extraer')
  * @param {string} textoConvertido 
  */
 function guardarLocalStorage(listado) {
-   const textoConvertido = JSON.stringify(listado)
-   localStorage.setItem("nombre",textoConvertido );
-   postArchivo(textoConvertido);
+    const textoConvertido = JSON.stringify(listado)
+    localStorage.setItem("nombre", textoConvertido);
+    postArchivo(textoConvertido);
 }
 
 /**
@@ -102,21 +111,21 @@ function guardarLocalStorage(listado) {
  */
 
 function extraeLocalStrona(data) {
-    
-    var datoNuevo = localStorage.getItem("nombre");	
-    if(!datoNuevo){
-	listado=data
-    }else{
-    listado = JSON.parse(datoNuevo);
-    console.log('listado',listado);
-    Object.entries(data).forEach(([key,value]) => {
-        if (!listado[key]) {
-            listado[key]=value;
-        }
-    });
-    console.log('listado',listado);
 
-    postArchivo(listado);
+    var datoNuevo = localStorage.getItem("nombre");
+    if (!datoNuevo) {
+        listado = data
+    } else {
+        listado = JSON.parse(datoNuevo);
+        console.log('listado', listado);
+        Object.entries(data).forEach(([key, value]) => {
+            if (!listado[key]) {
+                listado[key] = value;
+            }
+        });
+        console.log('listado', listado);
+
+        postArchivo(listado);
     }
     reconstruir(listado);
 }
@@ -154,24 +163,25 @@ function reconstruir(listado) {
             nuevaAccion.appendChild(listo);
         })
 
-         
-    listo.addEventListener('click', (e) => {
-        let elementoEditado = nuevoInput.getAttribute('name');
-        listado[elementoEditado]=nuevoInput.value
-        nuevoInput.setAttribute('readonly', 'readonly');
-        guardarLocalStorage(listado);
-        listo.remove();
-    })
-        
+
+        listo.addEventListener('click', (e) => {
+            let elementoEditado = nuevoInput.getAttribute('name');
+            listado[elementoEditado] = nuevoInput.value
+            nuevoInput.setAttribute('readonly', 'readonly');
+            guardarLocalStorage(listado);
+            listo.remove();
+        })
+
         const eliminar = document.createElement('button')
         eliminar.classList.add('delete');
         eliminar.innerHTML = 'Eliminar';
-        
+
         contenedorImput.appendChild(nuevoInput);
 
         nuevaAccion.appendChild(eliminar);
         contenedorImput.appendChild(nuevaAccion);
         eliminar.addEventListener('click', () => {
+            console.log('eliminar for');
             var elementoParaBorrar = nuevoInput.getAttribute('name');
             nuevoInput.remove();
             editar.remove();
@@ -180,7 +190,7 @@ function reconstruir(listado) {
         })
     });
 
-   
+
     console.log('salió de la funcion de reconstruir');
 }
 function eliminarElemento(elementoParaBorrar, listado) {
@@ -238,8 +248,8 @@ async function postArchivo(listaCaracteres) {
             body: cadena
         })
         .catch(function (res) { console.log(res) })
-       // .then(function (res) { console.log(res) })
-       // .catch(function (res) { console.log(res) })
-	console.log('respuesta', await respuesta.text() )
-	
+    // .then(function (res) { console.log(res) })
+    // .catch(function (res) { console.log(res) })
+    console.log('respuesta', await respuesta.text())
+
 }   
