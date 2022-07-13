@@ -54,7 +54,7 @@
 </head>
 
 <body>
-    <!-- ésta es la parte que no jala-->
+    <!-- ï¿½sta es la parte que no jala-->
 <p>
 
 </p>
@@ -62,7 +62,7 @@
     <p id="uCorreo"> <?php echo $_SESSION["uCorreo"];?>  </p>
 
     <div class="contenedor">
-        <input type="text" class="entradaTex">
+        <input type="text" placeholder="Ingrese una tarea" class="entradaTex">
         <input type="submit" class="boton">
     </div>
     <div id="contenedor_input">
@@ -72,7 +72,7 @@
        <input  style="display: flex; margin-top: 2rem; margin-left: 3rem;" type="submit" class="extraer" value="Extraer">
     
    </div>
-    <!-- ésta es la parte que jala pero debo pasarla a lo anterior-->
+    <!-- ï¿½sta es la parte que jala pero debo pasarla a lo anterior-->
   
 	<div>
 
