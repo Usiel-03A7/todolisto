@@ -5,6 +5,7 @@ let listado = {
 }
 
 boton.addEventListener("click", (e) => {
+    debugger
     e.preventDefault();
     const tarea = entradaTexto.value;
 

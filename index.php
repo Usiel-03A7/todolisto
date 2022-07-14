@@ -74,7 +74,7 @@
    </div>
     <!-- �sta es la parte que jala pero debo pasarla a lo anterior-->
   
-	<div>
+	<div class="cerrar">
 
 	<a href="https://wayf.ucol.mx/module.php/saml/disco.php?entityID=https%3A%2F%2Fwayf.ucol.mx%2F&return=https%3A%2F%2Fwayf.ucol.mx%2Fmodule.php%2Fsaml%2Fsp%2Fdiscoresp.php%3FAuthID%3D_6c67a254baa379494784ad80600d20513426e5da1a%253Ahttps%253A%252F%252Fwayf.ucol.mx%252Fsaml2%252Fidp%252FSSOService.php%253Fspentityid%253Dhttps%25253A%25252F%25252Fsistemas.cruzperez.com%2526cookieTime%253D1656963992%2526RelayState%253Dhttps%25253A%25252F%25252Fsistemas.cruzperez.com%25252Fusiel%25252Findex.php&returnIDParam=idpentityid">Close session <?php session_destroy(); ?></a>
 
