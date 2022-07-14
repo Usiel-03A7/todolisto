@@ -102,7 +102,8 @@ const extraer = document.querySelector('.extraer')
 function guardarLocalStorage(listado) {
     const textoConvertido = JSON.stringify(listado)
     localStorage.setItem("nombre", textoConvertido);
-    postArchivo(textoConvertido);
+    const textoEnListado = JSON.parse(textoConvertido)
+    postArchivo(textoEnListado);
 }
 
 /**

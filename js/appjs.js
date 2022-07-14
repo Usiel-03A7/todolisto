@@ -1,213 +1,246 @@
-//Borrador del que si jala el duplicado
 const boton = document.querySelector('.boton');
-const entradaTex = document.querySelector('.entradaTex');
-const contenedor_input = document.getElementById('contenedor_input');
-var nombreList = [];
+const entradaTexto = document.querySelector('.entradaTex');
+const contenedorImput = document.getElementById('contenedor_input');
+let listado = {
+}
 
 boton.addEventListener("click", (e) => {
     e.preventDefault();
-    const taskk = entradaTex.value;
+    const tarea = entradaTexto.value;
 
-    if (!taskk) {
+    if (!tarea ) {
         alert('Se recomienda ingresar un dato');
         return;
     }
 
-    const tImputEl = document.createElement('input');
-    tImputEl.classList.add('text');
-    tImputEl.type = 'text';
-    tImputEl.value = taskk;
+    const elementoImput = document.createElement('input');
+    elementoImput.classList.add('text');
+    elementoImput.type = 'text';
+    elementoImput.value = tarea;
+    listado[Date.now()] = tarea;
+    guardarLocalStorage(listado);
 
-    guardarLocalStorage(tImputEl.value);
-
-    tImputEl.setAttribute('readonly', 'readonly');
+    elementoImput.setAttribute('readonly', 'readonly');
 
 
 
     const accion = document.createElement('div')
     accion.classList.add('actions');
 
+    const editar = document.createElement('button')
+    editar.type = 'submit';
+    editar.classList.add('edit');
+    editar.innerHTML = 'Editar';
+    const listo = document.createElement('button')
+    listo.classList.add('done');
+    listo.type = 'submit';
+    listo.innerHTML = 'listo';
+
+    accion.appendChild(editar);
+    editar.addEventListener('click', (e) => {
+        elementoImput.removeAttribute('readonly');
+        accion.appendChild(listo);
+
+
+    })
+
+    elementoImput.setAttribute('readonly', 'readonly');
 
     
-    const edit = document.createElement('button')
-    edit.type = 'submit';
-    edit.classList.add('edit');
-    edit.innerHTML = 'Editar';
-    const done = document.createElement('button')
-    done.classList.add('done');
-    done.type = 'submit';
-    done.innerHTML = 'Done';
-
-    accion.appendChild(edit);
-    edit.addEventListener('click', (e) => {
-        tImputEl.removeAttribute('readonly');
-        accion.appendChild(done);
-
-
+    listo.addEventListener('click', (e) => {
+        let elementoEditado = elementoImput.getAttribute('name');
+        listado[elementoEditado]=elementoImput.value
+        elementoImput.setAttribute('readonly', 'readonly');
+        guardarLocalStorage(listado);
+        listo.remove();
     })
+    const eliminar = document.createElement('button');
+    eliminar.classList.add('delete');
+    eliminar.innerHTML = 'Eliminar';
 
-    tImputEl.setAttribute('readonly', 'readonly');
+    contenedorImput.appendChild(elementoImput);
 
+    accion.appendChild(eliminar);
+    contenedorImput.appendChild(accion);
 
-    done.addEventListener('click', (e) => {
-
-        tImputEl.setAttribute('readonly', 'readonly');
-        guardarLocalStorage(tImputEl.value);
-        done.remove();
+    eliminar.addEventListener('click', () => {
+        var elementoParaBorrar = elementoImput.getAttribute('name');
+        elementoImput.remove();
+        editar.remove();
+        eliminar.remove();
+        eliminarElemento(elementoParaBorrar, listado);
     })
-    const delet = document.createElement('button');
-    delet.classList.add('delete');
-    delet.innerHTML = 'Eliminar';
-
-    contenedor_input.appendChild(tImputEl);
-
-    accion.appendChild(delet);
-    contenedor_input.appendChild(accion);
-
-    delet.addEventListener('click', () => {
-        tImputEl.remove();
-        edit.remove();
-        delet.remove();
-        done.remove();
-    })
-    entradaTex.value = '';
+    entradaTexto.value = '';
 
 
 })
-var EDS =[];
 
-EDS = extraerDataSave();
+const extraerDataSave = async () => {
+    var correo = document.getElementById("uCorreo").textContent.trim();
+    const response = await fetch('./datos/' + correo )
+    const data  = await response.text()
+    
+    console.log('data: ', data)
+    extraeLocalStrona(JSON.parse(data));
+}
+
+extraerDataSave();
 
 const extraer = document.querySelector('.extraer')
-extraer.addEventListener('click', () => {
-
-    //extraeLocalStrona();
-    extraerDataSave();
-
-
-})
-function guardarLocalStorage(no) {
-    nombreList.push(no);
-    localStorage.setItem("nombre", JSON.stringify(nombreList));
-    postArchivo(JSON.stringify(nombreList));
+/**
+ * @param {objetc} listado 
+ * @param {string} textoConvertido 
+ */
+function guardarLocalStorage(listado) {
+   const textoConvertido = JSON.stringify(listado)
+   localStorage.setItem("nombre",textoConvertido );
+   postArchivo(textoConvertido);
 }
 
-function extraerDataSave() {
-	var  x;
-     var correo = document.getElementById("uCorreo").innerText;
-    fetch('./datos/'+correo + "?"+Math.random()) //Consultar datos
-        .then(response => response.text()) //Si se obtuvieron, 
-        .then(data => {
-            // Do something with your data
-            console.log(data);
-            localStorage.setItem("nombre", data);  
-	extraeLocalStrona();
-   //setear el localstorage
-        });					//TODO:si no
+/**
+ * 
+ * @param {string} data 
+ */
 
-    extraeLocalStrona();
-
-}
-
-function extraeLocalStrona() {
-
-    var newData = localStorage.getItem("nombre");
-    nombreList = JSON.parse(newData);
-    reconstruir(nombreList);
-}
-
-function reconstruir(varAre) {
-    let cont = 0;
-	
-	contenedor_input.innerHTML = ''
+function extraeLocalStrona(data) {
     
-	if(!varAre) return;
-	var lo = varAre;
-    
+    var datoNuevo = localStorage.getItem("nombre");	
+    if(!datoNuevo){
+	listado=data
+    }else{
+    listado = JSON.parse(datoNuevo);
+    console.log('listado',listado);
+    Object.entries(data).forEach(([key,value]) => {
+        if (!listado[key]) {
+            listado[key]=value;
+        }
+    });
+    console.log('listado',listado);
 
-
-    for (let i = 0; i < lo.length; i++) {
-
-        const newImp = document.createElement('input');
-        newImp.classList.add('text')
-        newImp.type = 'text';
-        newImp.value = lo[i];
-
-        newImp.setAttribute('readonly', 'readonly')
-
-
-
-        const newaccion = document.createElement('div')
-        newaccion.classList.add('actions')
-
-        const edit = document.createElement('button')
-        edit.type = 'submit';
-        edit.classList.add('edit');
-        edit.innerHTML = 'Editar';
-        const done = document.createElement('button')
-        done.classList.add('done')
-        done.type = 'submit';
-        done.innerHTML = 'Done';
-
-        newaccion.appendChild(edit);
-        edit.addEventListener('click', (e) => {
-            newImp.removeAttribute('readonly');
-            newaccion.appendChild(done);
-
-
-
-        })
-
-        newImp.setAttribute('readonly', 'readonly');
-
-
-        done.addEventListener('click', (e) => {
-
-            newImp.setAttribute('readonly', 'readonly');
-            guardarLocalStorage(newImp.value);
-            done.remove();
-        })
-        const delet = document.createElement('button')
-        delet.classList.add('delete');
-        delet.innerHTML = 'Eliminar';
-
-        contenedor_input.appendChild(newImp);
-
-        newaccion.appendChild(delet);
-        contenedor_input.appendChild(newaccion);
-
-        delet.addEventListener('click', () => {
-            newImp.remove();
-            edit.remove();
-            delet.remove();
-            done.remove();
-        })
-
+    postArchivo(listado);
     }
-}
-function eliminarar(){
-
+    reconstruir(listado);
 }
 
-function postArchivo(archi) {
- var correo = document.getElementById("uCorreo").innerText;
-	var usuario = {
-	archi: archi,
-	correo: correo
+function reconstruir(listado) {
+    console.log('si entr� ala funcion de reconstruir');
 
-	};
-	var cadena = JSON.stringify(usuario);
-	console.log(cadena);
 
-    fetch('https://sistemas.cruzperez.com/usiel/back.php',
+    Object.entries(listado).forEach(([key, value]) => {
+        const nuevoInput = document.createElement('input');
+        nuevoInput.classList.add('text')
+        nuevoInput.type = 'text';
+        nuevoInput.setAttribute('name', key)
+        nuevoInput.value = value;
+
+        nuevoInput.setAttribute('readonly', 'readonly')
+
+        const nuevaAccion = document.createElement('div')
+        nuevaAccion.classList.add('actions')
+
+        const editar = document.createElement('button')
+        editar.type = 'submit';
+        editar.classList.add('edit');
+        editar.innerHTML = 'Editar';
+
+        const listo = document.createElement('button')
+        listo.classList.add('done')
+        listo.type = 'submit';
+        listo.innerHTML = 'listo';
+
+        nuevaAccion.appendChild(editar);
+
+        editar.addEventListener('click', (e) => {
+            nuevoInput.removeAttribute('readonly');
+            nuevaAccion.appendChild(listo);
+        })
+
+         
+    listo.addEventListener('click', (e) => {
+        let elementoEditado = nuevoInput.getAttribute('name');
+        listado[elementoEditado]=nuevoInput.value
+        nuevoInput.setAttribute('readonly', 'readonly');
+        guardarLocalStorage(listado);
+        listo.remove();
+    })
+        
+        const eliminar = document.createElement('button')
+        eliminar.classList.add('delete');
+        eliminar.innerHTML = 'Eliminar';
+        
+        contenedorImput.appendChild(nuevoInput);
+
+        nuevaAccion.appendChild(eliminar);
+        contenedorImput.appendChild(nuevaAccion);
+        eliminar.addEventListener('click', () => {
+            var elementoParaBorrar = nuevoInput.getAttribute('name');
+            nuevoInput.remove();
+            editar.remove();
+            eliminar.remove();
+            eliminarElemento(elementoParaBorrar, listado);
+        })
+    });
+
+   
+    console.log('sali� de la funcion de reconstruir');
+}
+function eliminarElemento(elementoParaBorrar, listado) {
+    console.log('el elemento es el numero: ' + elementoParaBorrar);
+
+    console.log(`El elemento a borrar es ${elementoParaBorrar} y el arreglo es ${listado}`);
+
+    delete listado[elementoParaBorrar]
+
+    console.log('existoso');
+    console.log(listado);
+    guardarLocalStorage(listado)
+
+}
+// const eliminar = document.querySelector('.delete');
+// const editar = document.querySelector('.edit');
+// const listo = document.querySelector('.done');
+// const nuevoInput = document.querySelector('.text');
+// eliminar.addEventListener('click', () => {
+//     console.log('Holi');
+//     nuevoInput.remove();
+//     editar.remove();
+//     eliminar.remove();
+
+
+
+// })
+
+
+function borrarUnElemento(elementoParaBorrar, listaCaracteres) {
+    let inicial = listaCaracteres.indexOf(elementoParaBorrar);
+    listaCaracteres.splice(inicial, 1);
+    console.log(listaCaracteres);
+
+}
+
+async function postArchivo(listaCaracteres) {
+    console.log(listaCaracteres);
+    var correo = document.getElementById("uCorreo").textContent.trim();
+    var usuario = {
+        listaCaracteres: listaCaracteres,
+        correo: correo
+
+    };
+    var cadena = JSON.stringify(usuario);
+    console.log(cadena);
+
+    const respuesta = await fetch('https://sistemas.cruzperez.com/usiel/back.php',
         {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             method: "POST",
-            body: cadena 
+            body: cadena
         })
-        .then(function (res) { console.log(res) })
         .catch(function (res) { console.log(res) })
-}
+       // .then(function (res) { console.log(res) })
+       // .catch(function (res) { console.log(res) })
+	console.log('respuesta', await respuesta.text() )
+	
+}   

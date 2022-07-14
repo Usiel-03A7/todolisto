@@ -64,10 +64,12 @@ boton.addEventListener("click", (e) => {
     contenedorImput.appendChild(accion);
 
     eliminar.addEventListener('click', () => {
+        
+        var elementoParaBorrar = elementoImput.getAttribute('name');
         elementoImput.remove();
         editar.remove();
         eliminar.remove();
-        listo.remove();
+        eliminarElemento(elementoParaBorrar, listado);
     })
     entradaTexto.value = '';
 
@@ -109,7 +111,7 @@ function extraeLocalStrona(data) {
     }else{
     listado = JSON.parse(datoNuevo);
     console.log('listado',listado);
-    Object.entries(data).forEach(([key,value]) => {
+    Object.entries(data).forEach((key,value) => {
         if (!listado[key]) {
             listado[key]=value;
         }
@@ -195,19 +197,7 @@ function eliminarElemento(elementoParaBorrar, listado) {
     guardarLocalStorage(listado)
 
 }
-// const eliminar = document.querySelector('.delete');
-// const editar = document.querySelector('.edit');
-// const listo = document.querySelector('.done');
-// const nuevoInput = document.querySelector('.text');
-// eliminar.addEventListener('click', () => {
-//     console.log('Holi');
-//     nuevoInput.remove();
-//     editar.remove();
-//     eliminar.remove();
 
-
-
-// })
 
 
 function borrarUnElemento(elementoParaBorrar, listaCaracteres) {
