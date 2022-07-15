@@ -5,7 +5,7 @@ let listado = {
 }
 
 boton.addEventListener("click", (e) => {
-    debugger
+
     e.preventDefault();
     const tarea = entradaTexto.value;
 
@@ -120,9 +120,9 @@ function extraeLocalStrona(data) {
     } else {
         listado = JSON.parse(datoNuevo);
         console.log('listado', listado);
-        Object.entries(data).forEach(([key, value]) => {
-            if (!listado[key]) {
-                listado[key] = value;
+        Object.entries(listado ).forEach(([key, value]) => {
+            if (!data[key,value]) {
+                data[key] = value;
             }
         });
         console.log('listado', listado);
@@ -207,20 +207,6 @@ function eliminarElemento(elementoParaBorrar, listado) {
     guardarLocalStorage(listado)
 
 }
-// const eliminar = document.querySelector('.delete');
-// const editar = document.querySelector('.edit');
-// const listo = document.querySelector('.done');
-// const nuevoInput = document.querySelector('.text');
-// eliminar.addEventListener('click', () => {
-//     console.log('Holi');
-//     nuevoInput.remove();
-//     editar.remove();
-//     eliminar.remove();
-
-
-
-// })
-
 
 function borrarUnElemento(elementoParaBorrar, listaCaracteres) {
     let inicial = listaCaracteres.indexOf(elementoParaBorrar);
